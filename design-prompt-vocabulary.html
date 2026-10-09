@@ -9,41 +9,62 @@
     --bg:#0a0a0f; --panel:#12121a; --panel2:#171724;
     --text:#e8e8f0; --muted:#8a8a9e;
     --line:rgba(255,255,255,.08);
-    --iridescent:linear-gradient(90deg,#ff6ec7,#a78bfa,#5eead4,#fde047);
+    --accent:#5eead4;
+    --padX:24px;
+    --dockW:348px;
   }
   *{margin:0;padding:0;box-sizing:border-box}
-  body{background:var(--bg);color:var(--text);font:14px/1.7 -apple-system,"PingFang SC","Microsoft YaHei",sans-serif;padding:48px 24px 132px}
+  body{background:var(--bg);color:var(--text);font:14px/1.7 -apple-system,"PingFang SC","Microsoft YaHei",sans-serif;padding:48px var(--padX) 132px}
   .wrap{max-width:1080px;margin:0 auto}
-  h1{font-size:32px;font-weight:700;letter-spacing:-.5px;background:var(--iridescent);-webkit-background-clip:text;background-clip:text;color:transparent;display:inline-block}
+  h1{font-size:32px;font-weight:700;letter-spacing:-.8px;color:#f2f2f7;display:inline-block}
+  h2 .num,nav .num{display:inline-block;font-family:"Inter","Helvetica Neue",Arial,sans-serif;font-weight:700;font-size:1.06em;letter-spacing:.05em;color:var(--accent);margin-right:9px;font-variant-numeric:tabular-nums}
   .sub{color:var(--muted);margin:8px 0 32px}
   .formula{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 20px;margin-bottom:36px;font-size:15px}
-  .formula b{background:var(--iridescent);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .formula b{color:var(--accent);font-weight:600}
   .formula .sep{color:var(--muted);margin:0 8px}
-  nav{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:32px;position:sticky;top:0;background:var(--bg);padding:12px 0;z-index:9;border-bottom:1px solid var(--line)}
-  nav a{color:var(--muted);text-decoration:none;font-size:13px;padding:4px 12px;border-radius:99px;border:1px solid var(--line);transition:.15s}
-  nav a:hover{color:var(--text);border-color:#a78bfa}
-  section{margin-bottom:44px}
-  h2{font-size:19px;font-weight:600;margin-bottom:4px}
+  /* 通栏导航：横向撑满视口，内部再对齐到内容栅格 */
+  nav{
+    position:sticky;top:0;z-index:9;
+    margin:0 calc(var(--padX) * -1) 32px;
+    padding:12px var(--padX);
+    background:var(--bg);
+    border-bottom:1px solid var(--line);
+    transition:padding .18s,margin .18s,background .18s;
+  }
+  .navInner{display:flex;flex-wrap:wrap;gap:8px;max-width:1080px;margin:0 auto}
+  nav a{color:var(--muted);text-decoration:none;font-size:13px;padding:4px 12px;border-radius:99px;border:1px solid var(--line);transition:.15s;white-space:nowrap}
+  nav.stuck{padding:9px var(--padX);background:rgba(10,10,15,.93);backdrop-filter:saturate(140%) blur(12px);-webkit-backdrop-filter:saturate(140%) blur(12px);border-bottom-color:rgba(255,255,255,.12)}
+  nav.stuck .navInner{flex-wrap:nowrap;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none;-ms-overflow-style:none}
+  nav.stuck a{flex:0 0 auto}
+  .navInner::-webkit-scrollbar{display:none}
+  nav a:hover{color:var(--text);border-color:var(--accent)}
+  section{margin-bottom:44px;scroll-margin-top:64px}
+  h2{font-size:19px;font-weight:600;margin-bottom:4px;scroll-margin-top:64px}
   h2 .en{color:var(--muted);font-weight:400;font-size:13px;margin-left:8px}
   .desc{color:var(--muted);font-size:13px;margin-bottom:16px}
   .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
   .chip{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px 14px;cursor:pointer;transition:.15s;position:relative}
-  .chip:hover{background:var(--panel2);border-color:#a78bfa;transform:translateY(-1px)}
+  .chip:hover{background:var(--panel2);border-color:var(--accent);transform:translateY(-1px)}
   .chip .k{font-weight:600;font-size:13.5px}
   .chip .zh{display:block;color:var(--muted);font-size:12px;margin-top:2px}
   .chip .copied{position:absolute;top:8px;right:10px;color:#5eead4;font-size:11px;opacity:0;transition:.2s}
   .chip.copied .copied{opacity:1}
   .chip.sel{border-color:#5eead4;background:#10202a;box-shadow:inset 0 0 0 1px rgba(94,234,212,.3)}
   .chip.sel .k::after{content:" ✓";color:#5eead4}
-  #dock{position:fixed;left:0;right:0;bottom:0;z-index:60;background:rgba(13,13,20,.96);border-top:1px solid rgba(255,255,255,.14);box-shadow:0 -12px 40px rgba(0,0,0,.55)}
+  .layout{max-width:1080px;margin:0 auto}
+  #dock{position:fixed;left:0;right:0;bottom:0;z-index:60;background:rgba(13,13,20,.96);border-top:1px solid rgba(255,255,255,.14);box-shadow:0 -12px 40px rgba(0,0,0,.55);transition:box-shadow .3s}
+  #dock.flash{box-shadow:0 0 0 2px #5eead4,0 -12px 40px rgba(0,0,0,.55)}
   #dockHead{max-width:1080px;margin:0 auto;padding:12px 24px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
   #dockCount{font-weight:600;font-size:14px}
   #dockHint{color:var(--muted);font-size:12px}
+  #selTags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;margin-bottom:6px}
+  .stag{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;color:#a9e8dc;background:rgba(94,234,212,.1);border:1px solid rgba(94,234,212,.3);border-radius:99px;padding:2px 9px;cursor:pointer;transition:.15s}
+  .stag:hover{background:rgba(244,114,110,.12);border-color:rgba(244,114,110,.5);color:#f4a09c}
   .dockBtns{margin-left:auto;display:flex;gap:8px}
   .dockBtns button{background:#1b1b26;border:1px solid rgba(255,255,255,.14);color:var(--text);font-size:13px;padding:6px 14px;border-radius:8px;cursor:pointer;transition:.15s}
-  .dockBtns button:hover{border-color:#a78bfa}
+  .dockBtns button:hover{border-color:var(--accent)}
   .dockBtns button:disabled{opacity:.45;cursor:not-allowed}
-  .dockBtns button.primary{background:linear-gradient(90deg,#a78bfa,#22d3ee);border:none;color:#0a0a0f;font-weight:700}
+  .dockBtns button.primary{background:var(--accent);border:none;color:#05201b;font-weight:700}
   #dockBody{max-width:1080px;margin:0 auto;padding:0 24px 22px;display:none;max-height:58vh;overflow:auto}
   #dock.open #dockBody{display:block}
   .pcard{background:#14141d;border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:10px}
@@ -53,6 +74,34 @@
   .copybtn{background:#1b1b26;border:1px solid rgba(255,255,255,.14);color:var(--text);font-size:12px;padding:5px 12px;border-radius:8px;cursor:pointer;transition:.15s}
   .copybtn:hover{border-color:#5eead4;color:#5eead4}
   .copybtn.ok{border-color:#5eead4;color:#5eead4}
+  @media(min-width:1180px){
+    :root{--padX:28px}
+    body{padding:48px var(--padX) 72px}
+    .layout{max-width:1460px;display:grid;grid-template-columns:minmax(0,1080px) var(--dockW);gap:28px;align-items:start}
+    .wrap{max-width:none;margin:0}
+    .navInner{max-width:1460px}
+    /* 右侧组合器：整列 sticky 撑满一屏，内部垂直居中 → 悬浮在屏幕正中 */
+    .dockCol{position:sticky;top:0;height:100vh;display:flex;align-items:center;justify-content:flex-end;padding:20px 0}
+    #dock{
+      position:relative;left:auto;right:auto;bottom:auto;top:auto;
+      width:100%;max-height:calc(100vh - 130px);
+      overflow:auto;overscroll-behavior:contain;
+      background:rgba(18,18,26,.97);
+      border:1px solid rgba(255,255,255,.12);border-radius:14px;
+      box-shadow:0 28px 70px rgba(0,0,0,.6),0 0 0 1px rgba(94,234,212,.06);
+      z-index:40;
+    }
+    #dock::-webkit-scrollbar{width:6px}
+    #dock::-webkit-scrollbar-thumb{background:rgba(255,255,255,.14);border-radius:99px}
+    #dock.flash{box-shadow:0 0 0 2px #5eead4,0 28px 70px rgba(0,0,0,.6)}
+    #dockHead{flex-direction:column;align-items:stretch;gap:0;padding:14px 16px 16px;border-bottom:1px solid var(--line)}
+    #dockBody{display:block;padding:12px 16px 6px;max-height:none;overflow:visible}
+    #selTags{margin-top:12px;margin-bottom:16px}
+    #btnToggle{display:none}
+    .dockBtns{margin:0;width:100%}
+    .dockBtns button{flex:1}
+    .pcard{margin-bottom:10px}
+  }
   .chip .eye{position:absolute;top:8px;right:10px;color:#8a8a9e;font-size:10px;opacity:0;transition:.2s}
   .chip:hover .eye{opacity:.9}
   .chip.copied .eye{opacity:0}
@@ -71,10 +120,16 @@
   .example .tag{display:inline-block;font-size:12px;padding:2px 10px;border-radius:99px;margin-bottom:10px}
   .example p{font-size:13.5px;color:#c9c9d8}
   .footer{color:var(--muted);font-size:12px;text-align:center;margin-top:48px;padding-top:24px;border-top:1px solid var(--line)}
-  @media(max-width:600px){body{padding:28px 14px}h1{font-size:26px}}
+  @media(max-width:600px){:root{--padX:14px}body{padding:28px var(--padX)}h1{font-size:26px}}
 </style>
 </head>
 <body>
+<nav>
+  <div class="navInner">
+    <a href="#s1"><span class="num">01</span> 风格锚点</a><a href="#s2"><span class="num">02</span> 布局结构</a><a href="#s3"><span class="num">03</span> 光效材质</a><a href="#s4"><span class="num">04</span> 排版气质</a><a href="#s5"><span class="num">05</span> 配色方案</a><a href="#s6"><span class="num">06</span> 氛围词</a><a href="#s7"><span class="num">07</span> 移动端专属</a><a href="#s8"><span class="num">08</span> 负面清单</a><a href="#s9"><span class="num">09</span> 组合范例</a>
+  </div>
+</nav>
+<div class="layout">
 <div class="wrap">
   <h1>设计提示词词汇库</h1>
   <p class="sub">移动端 / Web 设计通用 · 悬停词条看图例 · 点击复制英文关键词 · 9 类 100+ 词条</p>
@@ -83,12 +138,8 @@
     <b>提示词公式</b>：用途/场景 <span class="sep">+</span> <b>风格锚点</b> <span class="sep">+</span> 布局结构 <span class="sep">+</span> 光效材质 <span class="sep">+</span> 排版气质 <span class="sep">+</span> 配色 <span class="sep">+</span> 参考图 / 负面清单
   </div>
 
-  <nav>
-    <a href="#s1">① 风格锚点</a><a href="#s2">② 布局结构</a><a href="#s3">③ 光效材质</a><a href="#s4">④ 排版气质</a><a href="#s5">⑤ 配色方案</a><a href="#s6">⑥ 氛围词</a><a href="#s7">⑦ 移动端专属</a><a href="#s8">⑧ 负面清单</a><a href="#s9">⑨ 组合范例</a><a href="#" id="navMine">⑩ 我的提示词组合</a>
-  </nav>
-
   <section id="s1">
-    <h2>① 风格锚点<span class="en">Style Anchors — 一词定调，杠杆最大</span></h2>
+    <h2><span class="num">01</span> 风格锚点<span class="en">Style Anchors — 一词定调，杠杆最大</span></h2>
     <p class="desc">选 1 个主风格 + 最多 1 个混搭，堆多了互相打架。悬停可预览效果。</p>
     <div class="grid">
       <div class="chip" data-copy="Glassmorphism" data-p="glass"><span class="eye">👁 图例</span><span class="k">Glassmorphism</span><span class="copied">已复制</span><span class="zh">玻璃拟态：半透明磨砂 + 模糊背景 + 细边框</span></div>
@@ -119,7 +170,7 @@
   </section>
 
   <section id="s2">
-    <h2>② 布局结构<span class="en">Layout — 骨架先定，装饰后补</span></h2>
+    <h2><span class="num">02</span> 布局结构<span class="en">Layout — 骨架先定，装饰后补</span></h2>
     <p class="desc">可以口述，也可以丢一张线框草图，AI 都能接。</p>
     <div class="grid">
       <div class="chip" data-copy="full-bleed hero section" data-p="l-hero"><span class="eye">👁 图例</span><span class="k">Hero 首屏</span><span class="copied">已复制</span><span class="zh">大图/大标题占满首屏，一句 CTA</span></div>
@@ -140,7 +191,7 @@
   </section>
 
   <section id="s3">
-    <h2>③ 光效材质<span class="en">Light &amp; Texture — 拉开档次的关键一层</span></h2>
+    <h2><span class="num">03</span> 光效材质<span class="en">Light &amp; Texture — 拉开档次的关键一层</span></h2>
     <p class="desc">普通稿和高稿之间，往往就差这一类词。</p>
     <div class="grid">
       <div class="chip" data-copy="iridescent / holographic gradient accents" data-p="e-iri"><span class="eye">👁 图例</span><span class="k">Iridescent 虹彩</span><span class="copied">已复制</span><span class="zh">全息幻彩流光，点缀用</span></div>
@@ -163,7 +214,7 @@
   </section>
 
   <section id="s4">
-    <h2>④ 排版气质<span class="en">Typography — 字也是画面</span></h2>
+    <h2><span class="num">04</span> 排版气质<span class="en">Typography — 字也是画面</span></h2>
     <div class="grid">
       <div class="chip" data-copy="oversized display headline, 96px+" data-p="t-disp"><span class="eye">👁 图例</span><span class="k">超大标题</span><span class="copied">已复制</span><span class="zh">96px 起步，标题即海报</span></div>
       <div class="chip" data-copy="tight letter-spacing, negative tracking" data-p="t-track"><span class="eye">👁 图例</span><span class="k">负字距</span><span class="copied">已复制</span><span class="zh">大标题收紧 -2%~-4%</span></div>
@@ -181,7 +232,7 @@
   </section>
 
   <section id="s5">
-    <h2>⑤ 配色方案<span class="en">Color — 说清"底色 + 主色 + 点缀"三件套</span></h2>
+    <h2><span class="num">05</span> 配色方案<span class="en">Color — 说清"底色 + 主色 + 点缀"三件套</span></h2>
     <div class="grid">
       <div class="chip" data-copy="dark background #0a0a0f, single accent color" data-p="c-dark"><span class="eye">👁 图例</span><span class="k">深底单点缀</span><span class="copied">已复制</span><span class="zh">深底 + 唯一强调色，克制高级</span></div>
       <div class="chip" data-copy="high contrast black & white" data-p="c-bw"><span class="eye">👁 图例</span><span class="k">黑白高对比</span><span class="copied">已复制</span><span class="zh">无色胜有色</span></div>
@@ -199,7 +250,7 @@
   </section>
 
   <section id="s6">
-    <h2>⑥ 氛围词<span class="en">Vibe — 一个词调出整套语料</span></h2>
+    <h2><span class="num">06</span> 氛围词<span class="en">Vibe — 一个词调出整套语料</span></h2>
     <p class="desc">AI 对这些词有海量训练语料，一句话顶 200 字形容词。</p>
     <div class="grid">
       <div class="chip" data-copy="Apple keynote style" data-p="v-key"><span class="eye">👁 图例</span><span class="k">Apple 发布会</span><span class="copied">已复制</span><span class="zh">深底、大字、一屏一重点</span></div>
@@ -218,7 +269,7 @@
   </section>
 
   <section id="s7">
-    <h2>⑦ 移动端专属<span class="en">Mobile Patterns — 和 Web 词汇分开记</span></h2>
+    <h2><span class="num">07</span> 移动端专属<span class="en">Mobile Patterns — 和 Web 词汇分开记</span></h2>
     <div class="grid">
       <div class="chip" data-copy="bottom tab bar navigation" data-p="m-tab"><span class="eye">👁 图例</span><span class="k">底部 Tab</span><span class="copied">已复制</span><span class="zh">拇指区导航，3-5 个一级入口</span></div>
       <div class="chip" data-copy="thumb-friendly, one-handed reach" data-p="m-thumb"><span class="eye">👁 图例</span><span class="k">单手可达</span><span class="copied">已复制</span><span class="zh">核心操作放屏幕下半区</span></div>
@@ -234,7 +285,7 @@
   </section>
 
   <section id="s8" class="negative">
-    <h2>⑧ 负面清单<span class="en">Negative List — 防住 AI 审美比正面描述更有效</span></h2>
+    <h2><span class="num">08</span> 负面清单<span class="en">Negative List — 防住 AI 审美比正面描述更有效</span></h2>
     <p class="desc">拼在提示词末尾："不要……"。中英文都吃。悬停看反面教材。</p>
     <div class="grid">
       <div class="chip" data-copy="no generic purple-blue gradient hero" data-p="n-purple"><span class="eye">👁 图例</span><span class="k">拒 紫蓝渐变 hero</span><span class="copied">已复制</span><span class="zh">AI 味最重的一顶帽子</span></div>
@@ -250,7 +301,7 @@
   </section>
 
   <section id="s9">
-    <h2>⑨ 组合范例<span class="en">三个不同风格的完整提示词模板</span></h2>
+    <h2><span class="num">09</span> 组合范例<span class="en">三个不同风格的完整提示词模板</span></h2>
     <div class="example">
       <span class="tag" style="background:rgba(167,139,250,.15);color:#a78bfa">发布会官网（你熟悉的这套）</span>
       <p>"深色底（#0A0A0F）的 AI 产品发布会官网，Apple keynote style。Bento grid 布局，首屏超大 display 标题 + 负字距，aurora 极光铺底 + 细噪点覆层，虹彩渐变只做按钮和小面积点缀。每区块留白 ≥20%，层级 3 档以内。参考图：X。不要紫色渐变 hero，不要满屏圆角卡片。"</p>
@@ -265,20 +316,24 @@
     </div>
   </section>
 
-  <p class="footer">用法：挑 1 个风格锚点 + 1 个氛围词打底 → 布局口述 → 光效/排版/配色微调 → 末尾拼负面清单 → 有参考图必带参考图<br>悬停词条预览图例 · 点击词条加入底部组合 · 底部可一键复制整段并附两组相似风格</p>
+  <p class="footer">用法：挑 1 个风格锚点 + 1 个氛围词打底 → 布局口述 → 光效/排版/配色微调 → 末尾拼负面清单 → 有参考图必带参考图<br>悬停词条预览图例 · 点击词条加入右侧组合 · 可一键复制整段并附两组相似风格</p>
 </div>
 
-<div id="dock">
-  <div id="dockHead">
-    <span id="dockCount">已选 0 个词条</span>
-    <span id="dockHint">点击上方词条加入组合（风格锚点优先，再点可移除）</span>
-    <div class="dockBtns">
-      <button id="btnToggle">展开提示词 ▲</button>
-      <button id="btnCopyAll" class="primary" disabled>复制整段</button>
-      <button id="btnClear">清空</button>
+  <div class="dockCol">
+  <aside id="dock">
+    <div id="dockHead">
+      <div>
+        <div id="dockCount">已选 0 个词条</div>
+        <div id="dockHint">点击左侧词条加入组合（风格锚点优先）</div>
+        <div id="selTags"></div>
+      </div>
+      <div class="dockBtns">
+        <button id="btnToggle">展开提示词 ▲</button>
+        <button id="btnCopyAll" class="primary" disabled>复制整段</button>
+        <button id="btnClear">清空</button>
+      </div>
     </div>
-  </div>
-  <div id="dockBody">
+    <div id="dockBody">
     <div class="pcard">
       <div class="ptitle">我的组合<span class="ptag">按提示词公式自动拼装</span></div>
       <pre id="myPrompt"></pre>
@@ -294,6 +349,8 @@
       <pre id="simB"></pre>
       <button class="copybtn" data-target="simB">复制这段</button>
     </div>
+    </div>
+  </aside>
   </div>
 </div>
 <script>
@@ -491,9 +548,13 @@ function pickSim(){
 function updateDock(){
   const n=basket.length;
   document.getElementById('dockCount').textContent='已选 '+n+' 个词条';
-  document.getElementById('dockHint').textContent=n?'再点已选词条可移除':'点击上方词条加入组合（风格锚点优先）';
+  document.getElementById('dockHint').textContent=n?'点标签或词条可移除':'点击左侧词条加入组合（风格锚点优先）';
   document.getElementById('dock').classList.toggle('has',n>0);
-  document.getElementById('myPrompt').textContent=buildPrompt()||'（还没选词条。点上方任意词条加入组合，建议先选 1 个风格锚点定调，再补布局和光效材质。）';
+  document.getElementById('selTags').innerHTML=basket.map(function(c,i){
+    const nm=c.querySelector('.k').textContent.trim();
+    return '<span class="stag" data-i="'+i+'" title="点击移除">'+nm+' ×</span>';
+  }).join('');
+  document.getElementById('myPrompt').textContent=buildPrompt()||'（还没选词条。点左侧任意词条加入组合，建议先选 1 个风格锚点定调，再补布局和光效材质。）';
   const pair=pickSim();
   document.getElementById('simAName').textContent='· '+RNAME[pair[0]];
   document.getElementById('simBName').textContent='· '+RNAME[pair[1]];
@@ -518,15 +579,39 @@ document.getElementById('btnToggle').onclick=function(){
 document.querySelectorAll('.copybtn').forEach(function(b){
   b.onclick=function(){copyText(document.getElementById(b.dataset.target).textContent,this)};
 });
-document.getElementById('navMine').onclick=function(e){
-  e.preventDefault();
-  document.getElementById('dock').classList.add('open');
-  document.getElementById('btnToggle').textContent='收起 ▼';
-  const dk=document.getElementById('dock');
-  if(dk.scrollIntoView)dk.scrollIntoView({behavior:'smooth',block:'end'});
-};
+document.getElementById('selTags').addEventListener('click',function(e){
+  const t=e.target.closest('.stag');
+  if(!t)return;
+  const chip=basket[+t.dataset.i];
+  if(chip)toggleBasket(chip);
+});
+const navMineEl=document.getElementById('navMine');
+if(navMineEl){
+  navMineEl.onclick=function(e){
+    e.preventDefault();
+    const dk=document.getElementById('dock');
+    const wide=window.matchMedia?window.matchMedia('(min-width:1180px)').matches:false;
+    if(wide){
+      window.scrollTo({top:0,behavior:'smooth'});
+      dk.classList.add('flash');
+      setTimeout(function(){dk.classList.remove('flash')},1000);
+    }else{
+      dk.classList.add('open');
+      document.getElementById('btnToggle').textContent='收起 ▼';
+      if(dk.scrollIntoView)dk.scrollIntoView({behavior:'smooth',block:'end'});
+    }
+  };
+}
 updateDock();
-window.addEventListener('scroll',hideTip,{passive:true});
+function onScroll(){
+  hideTip();
+  const nv=document.querySelector('nav');
+  if(!nv)return;
+  // sticky top:0 → 已吸附时 nav 顶边贴到 0，用 rect 判断比 offsetTop 稳
+  const top=nv.getBoundingClientRect().top;
+  nv.classList.toggle('stuck',top<=1&&window.scrollY>0);
+}
+window.addEventListener('scroll',onScroll,{passive:true});
 window.addEventListener('resize',hideTip);
 </script>
 </body>
