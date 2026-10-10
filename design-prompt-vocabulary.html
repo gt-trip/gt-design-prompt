@@ -4,19 +4,40 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>设计提示词词汇库 · Design Prompt Vocabulary</title>
+<script>
+  (function(){
+    var key='vocabulary-theme',theme;
+    try{theme=localStorage.getItem(key)}catch(e){}
+    if(theme!=='light'&&theme!=='dark')theme=window.matchMedia&&window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';
+    document.documentElement.dataset.theme=theme;
+  })();
+</script>
 <style>
   :root{
-    --bg:#0a0a0f; --panel:#12121a; --panel2:#171724;
-    --text:#e8e8f0; --muted:#8a8a9e;
-    --line:rgba(255,255,255,.08);
+    --bg:#0a0a0f; --panel:#12121a; --panel2:#171724; --control:#1b1b26;
+    --dock:#0d0d14; --card:#14141d; --preview:#23232e;
+    --text:#e8e8f0; --muted:#8a8a9e; --pre:#c9c9d8;
+    --line:rgba(255,255,255,.08); --line-strong:rgba(255,255,255,.14);
     --accent:#5eead4;
+    --accent-ink:#05201b; --accent-surface:#253c38; --selected:#10202a;
+    --shadow:rgba(0,0,0,.55);
     --padX:24px;
     --dockW:348px;
   }
+  :root[data-theme="light"]{
+    color-scheme:light;
+    --bg:#f5f7fa; --panel:#ffffff; --panel2:#eef2f5; --control:#ffffff;
+    --dock:rgba(255,255,255,.96); --card:#ffffff; --preview:#eef2f5;
+    --text:#17202b; --muted:#637083; --pre:#334155;
+    --line:rgba(23,32,43,.13); --line-strong:rgba(23,32,43,.2);
+    --accent:#087f73; --accent-ink:#ffffff; --accent-surface:#d7f2ed; --selected:#e0f4f0;
+    --shadow:rgba(34,55,73,.18);
+  }
+  :root[data-theme="dark"]{color-scheme:dark}
   *{margin:0;padding:0;box-sizing:border-box}
-  body{background:var(--bg);color:var(--text);font:14px/1.7 -apple-system,"PingFang SC","Microsoft YaHei",sans-serif;padding:48px var(--padX) 132px}
+  body{background:var(--bg);color:var(--text);font:14px/1.7 -apple-system,"PingFang SC","Microsoft YaHei",sans-serif;padding:48px var(--padX) 132px;transition:background .2s,color .2s}
   .wrap{max-width:1080px;margin:0 auto}
-  h1{font-size:32px;font-weight:700;letter-spacing:-.8px;color:#f2f2f7;display:inline-block}
+  h1{font-size:32px;font-weight:700;letter-spacing:-.8px;color:var(--text);display:inline-block}
   h2 .num,nav .num{display:inline-block;font-family:"Inter","Helvetica Neue",Arial,sans-serif;font-weight:700;font-size:1.06em;letter-spacing:.05em;color:var(--accent);margin-right:9px;font-variant-numeric:tabular-nums}
   .sub{color:var(--muted);margin:8px 0 32px}
   .formula{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 20px;margin-bottom:36px;font-size:15px}
@@ -33,7 +54,7 @@
   }
   .navInner{display:flex;flex-wrap:wrap;gap:8px;max-width:1080px;margin:0 auto}
   nav a{color:var(--muted);text-decoration:none;font-size:13px;padding:4px 12px;border-radius:99px;border:1px solid var(--line);transition:.15s;white-space:nowrap}
-  nav.stuck{padding:9px var(--padX);background:rgba(10,10,15,.93);backdrop-filter:saturate(140%) blur(12px);-webkit-backdrop-filter:saturate(140%) blur(12px);border-bottom-color:rgba(255,255,255,.12)}
+  nav.stuck{padding:9px var(--padX);background:color-mix(in srgb,var(--bg) 93%,transparent);backdrop-filter:saturate(140%) blur(12px);-webkit-backdrop-filter:saturate(140%) blur(12px);border-bottom-color:var(--line-strong)}
   nav.stuck .navInner{flex-wrap:nowrap;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none;-ms-overflow-style:none}
   nav.stuck a{flex:0 0 auto}
   .navInner::-webkit-scrollbar{display:none}
@@ -47,20 +68,23 @@
   .chip:hover{background:var(--panel2);border-color:var(--accent);transform:translateY(-1px)}
   .chip .k{font-weight:600;font-size:13.5px}
   .chip .zh{display:block;color:var(--muted);font-size:12px;margin-top:2px}
-  .chip .copied{position:absolute;top:8px;right:10px;color:#5eead4;font-size:11px;opacity:0;transition:.2s}
+  .chip .copied{position:absolute;top:8px;right:10px;color:var(--accent);font-size:11px;opacity:0;transition:.2s}
   .chip.copied .copied{opacity:1}
-  .chip.sel{border-color:#5eead4;background:#10202a;box-shadow:inset 0 0 0 1px rgba(94,234,212,.3)}
-  .chip.sel .k::after{content:" ✓";color:#5eead4}
+  .chip.sel{border-color:var(--accent);background:var(--selected);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--accent) 30%,transparent)}
+  .chip.sel .k::after{content:" ✓";color:var(--accent)}
   .viewToolbar{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin:-12px 0 28px}
   .viewToolbar p{color:var(--muted);font-size:12px}
   .viewSwitch{display:flex;gap:4px;padding:4px;border:1px solid var(--line);border-radius:10px;background:var(--panel)}
   .viewSwitch button{border:0;border-radius:7px;background:transparent;color:var(--muted);padding:8px 16px;min-height:40px;cursor:pointer;font:inherit;font-size:13px}
-  .viewSwitch button[aria-pressed="true"]{background:#253c38;color:var(--accent)}
+  .viewSwitch button[aria-pressed="true"]{background:var(--accent-surface);color:var(--accent)}
+  .themeToggle{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);border-radius:10px;background:var(--panel);color:var(--text);padding:8px 13px;min-height:40px;cursor:pointer;font:inherit;font-size:13px;transition:.15s}
+  .themeToggle:hover{border-color:var(--accent);color:var(--accent)}
+  .themeIcon{font-size:16px;line-height:1}
   button:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
   .chip{padding:14px;display:flex;flex-direction:column;min-width:0;-webkit-tap-highlight-color:transparent}
   .itemHead{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:10px}
   .item-select{border:0;background:none;color:inherit;text-align:left;font:inherit;cursor:pointer;flex:1;min-height:36px;min-width:0}
-  .item-view{flex:none;border:1px solid var(--line);background:#1b1b26;color:var(--muted);border-radius:7px;padding:4px 8px;min-height:36px;font:inherit;font-size:11px;cursor:pointer}
+  .item-view{flex:none;border:1px solid var(--line);background:var(--control);color:var(--muted);border-radius:7px;padding:4px 8px;min-height:36px;font:inherit;font-size:11px;cursor:pointer}
   .item-view:hover{color:var(--accent);border-color:var(--accent)}
   .item-preview{margin:0;pointer-events:none}
   .item-preview svg,.item-preview img{display:block;width:100%;height:auto;aspect-ratio:190/112;border-radius:7px;object-fit:cover}
@@ -75,8 +99,8 @@
   .item-preview + .copied{margin-top:auto;padding-top:8px}
   @media(max-width:600px){.viewToolbar{gap:10px}.viewSwitch{width:100%}.viewSwitch button{flex:1}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.chip{padding:10px}.item-select,.item-view{min-height:40px}.chip .k{font-size:12px}body{padding-bottom:180px}h2 .en{display:block;margin-left:0}}
   .layout{max-width:1080px;margin:0 auto}
-  #dock{position:fixed;left:0;right:0;bottom:0;z-index:60;background:rgba(13,13,20,.96);border-top:1px solid rgba(255,255,255,.14);box-shadow:0 -12px 40px rgba(0,0,0,.55);transition:box-shadow .3s}
-  #dock.flash{box-shadow:0 0 0 2px #5eead4,0 -12px 40px rgba(0,0,0,.55)}
+  #dock{position:fixed;left:0;right:0;bottom:0;z-index:60;background:var(--dock);border-top:1px solid var(--line-strong);box-shadow:0 -12px 40px var(--shadow);transition:box-shadow .3s}
+  #dock.flash{box-shadow:0 0 0 2px var(--accent),0 -12px 40px var(--shadow)}
   #dockHead{max-width:1080px;margin:0 auto;padding:12px 24px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
   #dockCount{font-weight:600;font-size:14px}
   #dockHint{color:var(--muted);font-size:12px}
@@ -84,19 +108,19 @@
   .stag{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;color:#a9e8dc;background:rgba(94,234,212,.1);border:1px solid rgba(94,234,212,.3);border-radius:99px;padding:2px 9px;cursor:pointer;transition:.15s}
   .stag:hover{background:rgba(244,114,110,.12);border-color:rgba(244,114,110,.5);color:#f4a09c}
   .dockBtns{margin-left:auto;display:flex;gap:8px}
-  .dockBtns button{background:#1b1b26;border:1px solid rgba(255,255,255,.14);color:var(--text);font-size:13px;padding:6px 14px;border-radius:8px;cursor:pointer;transition:.15s}
+  .dockBtns button{background:var(--control);border:1px solid var(--line-strong);color:var(--text);font-size:13px;padding:6px 14px;border-radius:8px;cursor:pointer;transition:.15s}
   .dockBtns button:hover{border-color:var(--accent)}
   .dockBtns button:disabled{opacity:.45;cursor:not-allowed}
-  .dockBtns button.primary{background:var(--accent);border:none;color:#05201b;font-weight:700}
+  .dockBtns button.primary{background:var(--accent);border:none;color:var(--accent-ink);font-weight:700}
   #dockBody{max-width:1080px;margin:0 auto;padding:0 24px 22px;display:none;max-height:58vh;overflow:auto}
   #dock.open #dockBody{display:block}
-  .pcard{background:#14141d;border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:10px}
+  .pcard{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:10px}
   .ptitle{font-size:13px;font-weight:600;margin-bottom:8px}
   .ptag{color:var(--muted);font-weight:400;font-size:11px;margin-left:6px}
-  .pcard pre{white-space:pre-wrap;font:12.5px/1.75 -apple-system,"PingFang SC",sans-serif;color:#c9c9d8;margin:0 0 10px}
-  .copybtn{background:#1b1b26;border:1px solid rgba(255,255,255,.14);color:var(--text);font-size:12px;padding:5px 12px;border-radius:8px;cursor:pointer;transition:.15s}
-  .copybtn:hover{border-color:#5eead4;color:#5eead4}
-  .copybtn.ok{border-color:#5eead4;color:#5eead4}
+  .pcard pre{white-space:pre-wrap;font:12.5px/1.75 -apple-system,"PingFang SC",sans-serif;color:var(--pre);margin:0 0 10px}
+  .copybtn{background:var(--control);border:1px solid var(--line-strong);color:var(--text);font-size:12px;padding:5px 12px;border-radius:8px;cursor:pointer;transition:.15s}
+  .copybtn:hover{border-color:var(--accent);color:var(--accent)}
+  .copybtn.ok{border-color:var(--accent);color:var(--accent)}
   @media(min-width:1180px){
     :root{--padX:28px}
     body{padding:48px var(--padX) 72px}
@@ -109,14 +133,14 @@
       position:relative;left:auto;right:auto;bottom:auto;top:auto;
       width:100%;max-height:calc(100vh - 130px);
       overflow:auto;overscroll-behavior:contain;
-      background:rgba(18,18,26,.97);
-      border:1px solid rgba(255,255,255,.12);border-radius:14px;
-      box-shadow:0 28px 70px rgba(0,0,0,.6),0 0 0 1px rgba(94,234,212,.06);
+      background:var(--dock);
+      border:1px solid var(--line-strong);border-radius:14px;
+      box-shadow:0 28px 70px var(--shadow),0 0 0 1px color-mix(in srgb,var(--accent) 6%,transparent);
       z-index:40;
     }
     #dock::-webkit-scrollbar{width:6px}
     #dock::-webkit-scrollbar-thumb{background:rgba(255,255,255,.14);border-radius:99px}
-    #dock.flash{box-shadow:0 0 0 2px #5eead4,0 28px 70px rgba(0,0,0,.6)}
+    #dock.flash{box-shadow:0 0 0 2px var(--accent),0 28px 70px var(--shadow)}
     #dockHead{flex-direction:column;align-items:stretch;gap:0;padding:14px 16px 16px;border-bottom:1px solid var(--line)}
     #dockBody{display:block;padding:12px 16px 6px;max-height:none;overflow:visible}
     #selTags{margin-top:12px;margin-bottom:16px}
@@ -130,7 +154,7 @@
   .chip.copied .eye{opacity:0}
   .negative .chip{border-color:rgba(244,114,110,.35)}
   .negative .chip:hover{border-color:#f4726e}
-  #tip{position:fixed;left:0;top:0;z-index:999;background:#12121a;border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:10px 10px 8px;pointer-events:none;opacity:0;transition:opacity .12s;box-shadow:0 12px 40px rgba(0,0,0,.5);max-width:220px}
+  #tip{position:fixed;left:0;top:0;z-index:999;background:var(--panel);border:1px solid var(--line-strong);border-radius:12px;padding:10px 10px 8px;pointer-events:none;opacity:0;transition:opacity .12s;box-shadow:0 12px 40px var(--shadow);max-width:220px}
   #tip.on{opacity:1}
   #tip svg{display:block;border-radius:8px}
   #tip .cap{font-size:11px;color:#8a8a9e;margin-top:7px;text-align:center;line-height:1.4}
@@ -141,7 +165,7 @@
   #tip .bwin img{width:190px;height:98px;object-fit:cover;display:block;border:none;border-radius:0}
   .example{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin-bottom:14px}
   .example .tag{display:inline-block;font-size:12px;padding:2px 10px;border-radius:99px;margin-bottom:10px}
-  .example p{font-size:13.5px;color:#c9c9d8}
+  .example p{font-size:13.5px;color:var(--pre)}
   .footer{color:var(--muted);font-size:12px;text-align:center;margin-top:48px;padding-top:24px;border-top:1px solid var(--line)}
   @media(max-width:600px){:root{--padX:14px}body{padding:28px var(--padX) 180px}h1{font-size:26px}}
 </style>
@@ -165,6 +189,11 @@
     <div class="viewSwitch" role="group" aria-label="全部词条展示方式">
       <button type="button" data-view="text" aria-pressed="false">文字</button>
       <button type="button" data-view="diagram" aria-pressed="true">示意图</button>
+    </div>
+    <div class="viewSwitch" role="group" aria-label="网页颜色主题">
+      <button type="button" id="themeToggle" class="themeToggle" aria-live="polite">
+        <span class="themeIcon" id="themeIcon" aria-hidden="true">☀</span><span id="themeLabel">亮色模式</span>
+      </button>
     </div>
     <p>切换全部词条，或用词条右上角按钮单独切换</p>
   </div>
@@ -602,11 +631,28 @@ function updateViewSwitch(view){
 }
 updateViewSwitch(selectedView);
 document.querySelectorAll('.viewSwitch button').forEach(function(b){
+  if(b.id==='themeToggle')return;
   b.addEventListener('click',function(){
     chips.forEach(function(c){setItemView(c,b.dataset.view)});
     updateViewSwitch(b.dataset.view);
     try{localStorage.setItem('vocabulary-view',b.dataset.view)}catch(e){}
   });
+});
+const themeToggle=document.getElementById('themeToggle');
+const themeIcon=document.getElementById('themeIcon');
+const themeLabel=document.getElementById('themeLabel');
+function applyTheme(theme,save){
+  document.documentElement.dataset.theme=theme;
+  const light=theme==='light';
+  themeIcon.textContent=light?'☾':'☀';
+  themeLabel.textContent=light?'暗色模式':'亮色模式';
+  themeToggle.setAttribute('aria-label','切换到'+(light?'暗色':'亮色')+'模式');
+  themeToggle.setAttribute('title','当前为'+(light?'亮色':'暗色')+'模式');
+  if(save){try{localStorage.setItem('vocabulary-theme',theme)}catch(e){}}
+}
+applyTheme(document.documentElement.dataset.theme||'dark',false);
+themeToggle.addEventListener('click',function(){
+  applyTheme(document.documentElement.dataset.theme==='light'?'dark':'light',true);
 });
 async function writeClipboard(text){
   try{await navigator.clipboard.writeText(text);return true}catch(e){}

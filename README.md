@@ -18,6 +18,7 @@ Use it to explore unfamiliar styles, prepare a design brief, or build a prompt f
 
 - **Visual vocabulary:** 109 terms across eight categories, with English keywords and Chinese explanations.
 - **Text or diagrams:** switch every item at once or change individual items. Your selected terms stay in place when you switch views.
+- **Light and dark themes:** toggle the page theme from the toolbar. The app follows the operating system preference until you choose a theme, then remembers that choice in `localStorage`.
 - **Prompt builder:** select terms to copy their English keywords and assemble a prompt organized by category.
 - **Curated references:** get two preset prompt templates based on your first selected style or atmosphere term.
 - **Responsive workspace:** a side panel on wide screens and an expandable bottom panel on smaller screens.
@@ -82,7 +83,9 @@ for the intended mood and materials.
 
 Prompt assembly runs entirely in your browser using predefined rules. The app does not call an AI service. Similar-style references are curated templates selected through fixed mappings.
 
-Selected terms are kept in memory and reset when you reload the page. Only your global text/diagram preference is saved in the browser's `localStorage`.
+Selected terms are kept in memory and reset when you reload the page. Your global text/diagram preference and color theme are saved in the browser's `localStorage`.
+
+The color theme is also saved in `localStorage` under `vocabulary-theme`. If no saved theme exists, the app uses the browser's `prefers-color-scheme` setting.
 
 ## Project structure
 
