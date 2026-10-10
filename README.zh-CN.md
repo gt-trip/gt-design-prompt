@@ -1,12 +1,14 @@
 # 设计提示词词汇库
 
+[![Deploy status](https://github.com/gt-trip/gt-design-prompt/actions/workflows/deploy-pages.yml/badge.svg?branch=main)](https://github.com/gt-trip/gt-design-prompt/actions/workflows/deploy-pages.yml)
+
 **把视觉设计想法，变成可以直接使用的提示词。**
 
 面向 Web 与移动端界面的可视化词汇库与提示词组合工具。浏览 109 个设计词条，对照示意图理解含义，将风格、布局、材质、排版与配色组合成可复用的设计需求。
 
 [English](README.md) · **简体中文**
 
-[在线体验](https://gt-trip.github.io/gt-design-prompt/) · [反馈问题](https://github.com/gt-trip/gt-design-prompt/issues) · [部署状态](https://github.com/gt-trip/gt-design-prompt/actions/workflows/deploy-pages.yml)
+[在线体验](https://gt-trip.github.io/gt-design-prompt/) · [GitHub](https://github.com/gt-trip/gt-design-prompt) · [反馈问题](https://github.com/gt-trip/gt-design-prompt/issues)
 
 ## 为什么使用它？
 
@@ -17,8 +19,9 @@
 ## 功能
 
 - **可视化词汇**：八类共 109 个词条，包含英文关键词与中文解释。
-- **文字 / 示意图切换**：支持全局切换与单个词条切换，切换时保留已选组合。
-- **亮色 / 暗色模式**：工具栏可切换网页主题。未手动选择时跟随系统偏好，选择后通过 `localStorage` 记住主题。
+- **文字 / 图片切换**：右上角分段按钮可切换全部词条，悬停词条可查看文字说明，切换时保留已选组合。
+- **浅色 / 深色模式**：右上角分段按钮可直接选择主题。未手动选择时跟随系统偏好，选择后记住主题。
+- **源码入口**：右上角的 GitHub 按钮可直接打开项目仓库。
 - **提示词组合**：点击词条复制英文关键词，并按类别整理成完整提示词。
 - **预设风格参考**：根据第一个选中的风格或氛围词，提供两组预设提示词模板。
 - **响应式工作区**：宽屏使用右侧面板，小屏使用可展开的底部面板。
@@ -64,7 +67,7 @@ python3 -m http.server 8000 --bind 127.0.0.1
 4. 在右侧或底部面板中查看组合结果，点击**复制整段**。
 5. 将通用任务描述和参考图占位替换成实际产品、目标用户与参考图。
 
-再次点击已选词条或面板中的标签即可移除，点击**清空**重新开始。顶部**文字 / 示意图**按钮可切换全部词条，每个词条也有独立切换按钮。
+再次点击已选词条或面板中的标签即可移除，点击**清空**重新开始。右上角**文字 / 图片**按钮可切换全部词条，悬停词条可查看文字说明。
 
 ### 设计需求示例
 
@@ -81,9 +84,7 @@ python3 -m http.server 8000 --bind 127.0.0.1
 
 提示词由浏览器根据预定义规则组合，应用不调用 AI 服务。相似风格参考来自固定映射选择的预设模板。
 
-已选词条保存在当前页面内存中，刷新后重置。浏览器的 `localStorage` 仅保存全局文字 / 示意图展示偏好。
-
-颜色主题保存在 `localStorage` 的 `vocabulary-theme` 键中。如果没有已保存的主题，应用使用浏览器的 `prefers-color-scheme` 设置。
+已选词条保存在当前页面内存中，刷新后重置。全局展示偏好与主题分别保存在浏览器 `localStorage` 的 `vocabulary-view` 和 `vocabulary-theme` 键中。如果没有已保存的主题，应用跟随浏览器的 `prefers-color-scheme` 设置。
 
 ## 项目结构
 
@@ -114,6 +115,8 @@ python3 -m http.server 8000 --bind 127.0.0.1
 ## 部署自己的版本
 
 仓库提供 [GitHub Pages 工作流](.github/workflows/deploy-pages.yml)。
+
+顶部的 **Deploy status** 徽章展示 `main` 分支部署工作流的状态，点击可查看运行记录与部署日志。
 
 1. Fork 本仓库，或将项目复制到自己的 GitHub 仓库。
 2. 在 **Settings → Pages** 中，将 **Build and deployment → Source** 设置为 **GitHub Actions**。

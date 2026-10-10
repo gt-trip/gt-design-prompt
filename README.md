@@ -1,12 +1,14 @@
 # Design Prompt Vocabulary
 
+[![Deploy status](https://github.com/gt-trip/gt-design-prompt/actions/workflows/deploy-pages.yml/badge.svg?branch=main)](https://github.com/gt-trip/gt-design-prompt/actions/workflows/deploy-pages.yml)
+
 **Turn visual design ideas into a prompt you can use.**
 
 A visual vocabulary and prompt builder for web and mobile interfaces. Explore 109 design terms, compare their diagrams, and combine styles, layouts, textures, typography, and colors into a reusable design brief.
 
 **English** · [简体中文](README.zh-CN.md)
 
-[Try the app](https://gt-trip.github.io/gt-design-prompt/) · [Report an issue](https://github.com/gt-trip/gt-design-prompt/issues) · [Deployment status](https://github.com/gt-trip/gt-design-prompt/actions/workflows/deploy-pages.yml)
+[Try the app](https://gt-trip.github.io/gt-design-prompt/) · [GitHub](https://github.com/gt-trip/gt-design-prompt) · [Report an issue](https://github.com/gt-trip/gt-design-prompt/issues)
 
 ## Why use it?
 
@@ -17,8 +19,9 @@ Use it to explore unfamiliar styles, prepare a design brief, or build a prompt f
 ## Features
 
 - **Visual vocabulary:** 109 terms across eight categories, with English keywords and Chinese explanations.
-- **Text or diagrams:** switch every item at once or change individual items. Your selected terms stay in place when you switch views.
-- **Light and dark themes:** toggle the page theme from the toolbar. The app follows the operating system preference until you choose a theme, then remembers that choice in `localStorage`.
+- **Text or diagrams:** choose **文字** (Text) or **图片** (Images) in the top-right toolbar. Hover over a term to see its description. Your selected terms stay in place when you switch views.
+- **Light and dark themes:** choose **浅色** (Light) or **深色** (Dark) in the toolbar. The app follows the operating system preference until you choose a theme, then remembers that choice.
+- **Source within reach:** open the GitHub repository directly from the top-right toolbar.
 - **Prompt builder:** select terms to copy their English keywords and assemble a prompt organized by category.
 - **Curated references:** get two preset prompt templates based on your first selected style or atmosphere term.
 - **Responsive workspace:** a side panel on wide screens and an expandable bottom panel on smaller screens.
@@ -64,7 +67,7 @@ Use `localhost` or HTTPS and allow clipboard access when prompted for reliable c
 4. Review the assembled prompt in the side or bottom panel and choose **复制整段** (Copy full prompt).
 5. Replace the generic task description and reference-image placeholder with your actual product, audience, and reference.
 
-Click a selected item or its tag again to remove it. Use **清空** (Clear) to start over. The **文字 / 示意图** controls switch between text and diagrams; each item has its own view toggle too.
+Click a selected item or its tag again to remove it. Use **清空** (Clear) to start over. The **文字 / 图片** controls switch all terms between text and visual references. Hover over a term to see its description.
 
 ### Example design brief
 
@@ -83,9 +86,7 @@ for the intended mood and materials.
 
 Prompt assembly runs entirely in your browser using predefined rules. The app does not call an AI service. Similar-style references are curated templates selected through fixed mappings.
 
-Selected terms are kept in memory and reset when you reload the page. Your global text/diagram preference and color theme are saved in the browser's `localStorage`.
-
-The color theme is also saved in `localStorage` under `vocabulary-theme`. If no saved theme exists, the app uses the browser's `prefers-color-scheme` setting.
+Selected terms are kept in memory and reset when you reload the page. Your display preference and theme are saved in the browser's `localStorage` under `vocabulary-view` and `vocabulary-theme`. If no saved theme exists, the app follows the browser's `prefers-color-scheme` setting.
 
 ## Project structure
 
@@ -116,6 +117,8 @@ Use WebP for raster images and relative asset paths so the app works under a Git
 ## Deploy your own copy
 
 The repository includes a [GitHub Pages workflow](.github/workflows/deploy-pages.yml).
+
+The **Deploy status** badge at the top tracks the deployment workflow on `main`. Click it to inspect runs and deployment logs.
 
 1. Fork the repository or copy it into your own GitHub repository.
 2. In **Settings → Pages**, set **Build and deployment → Source** to **GitHub Actions**.
