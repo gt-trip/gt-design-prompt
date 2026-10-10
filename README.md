@@ -1,79 +1,131 @@
-# 设计提示词词汇库
+# Design Prompt Vocabulary
 
-面向 Web 与移动端设计的中英双语提示词工具。通过可视化词条选择风格、布局、光效、排版与配色，组合出可直接复制使用的设计提示词。
+**Turn visual design ideas into a prompt you can use.**
 
-[在线访问](https://gt-trip.github.io/gt-design-prompt/) · [部署记录](https://github.com/gt-trip/gt-design-prompt/actions/workflows/deploy-pages.yml)
+A visual vocabulary and prompt builder for web and mobile interfaces. Explore 109 design terms, compare their diagrams, and combine styles, layouts, textures, typography, and colors into a reusable design brief.
 
-> 在线地址在首次 GitHub Pages 部署成功后生效。
+**English** · [简体中文](README.zh-CN.md)
 
-## 功能
+[Try the app](https://gt-trip.github.io/gt-design-prompt/) · [Report an issue](https://github.com/gt-trip/gt-design-prompt/issues) · [Deployment status](https://github.com/gt-trip/gt-design-prompt/actions/workflows/deploy-pages.yml)
 
-- **分类词汇**：风格锚点、布局结构、光效材质、排版气质、配色方案、氛围词、移动端专属、负面清单，以及组合范例。
-- **文字 / 示意图切换**：默认在词条内直接展示图例；顶部可一键切换全部词条，词条右上角可单独切换。切换展示方式不会影响已选组合，全局展示偏好会在当前浏览器中保存。
-- **图例预览**：文字模式下，鼠标悬停词条仍可查看对应效果；手机上可用词条切换按钮直接查看。
-- **图片加载**：所有 JPG / PNG 资源已转换为 WebP；图例照片使用独立文件缓存、懒加载和异步解码。结构示意图使用轻量内联 SVG。
-- **关键词复制**：点击词条复制英文关键词，同时加入或移出当前组合。
-- **提示词组合**：底部面板按类别整理已选词条，支持复制整段、清空和展开查看。
-- **相似风格参考**：根据所选风格或氛围，提供两组预设提示词模板。
+## Why use it?
 
-页面使用原生 HTML、CSS 和 JavaScript，无需安装依赖、构建工具或后端。提示词组合在浏览器中按规则生成，未调用 AI 服务；已选词条仅保留在当前页面，刷新后重置。
+“Make it modern” leaves a lot to interpretation. This library gives you specific design language—and a visual reference for each term—so you can describe what you want with more precision.
 
-## 本地预览
+Use it to explore unfamiliar styles, prepare a design brief, or build a prompt for an AI design or coding tool. Start with one style anchor, then add the details that matter to your project.
 
-在项目目录运行（需要 Python 3）：
+## Features
+
+- **Visual vocabulary:** 109 terms across eight categories, with English keywords and Chinese explanations.
+- **Text or diagrams:** switch every item at once or change individual items. Your selected terms stay in place when you switch views.
+- **Prompt builder:** select terms to copy their English keywords and assemble a prompt organized by category.
+- **Curated references:** get two preset prompt templates based on your first selected style or atmosphere term.
+- **Responsive workspace:** a side panel on wide screens and an expandable bottom panel on smaller screens.
+- **Lightweight assets:** WebP photos with lazy loading and asynchronous decoding, plus inline SVG diagrams.
+- **Simple setup:** plain HTML, CSS, and JavaScript. No package installation, build step, backend, or API key required.
+
+The app currently uses a Chinese interface with English design keywords. This README is the default English documentation; [Chinese documentation](README.zh-CN.md) is also available.
+
+## Explore the vocabulary
+
+| Category | Terms | Examples |
+| --- | ---: | --- |
+| Style anchors | 24 | Glassmorphism, Bento Grid, Swiss Style, Japandi |
+| Layout | 14 | Split screen, masonry, sidebar dashboard |
+| Light & texture | 16 | Aurora glow, frosted glass, film grain |
+| Typography | 12 | Display headlines, serif pairing, tabular numbers |
+| Color | 12 | Morandi, earth tones, monochrome with an accent |
+| Atmosphere | 12 | Quiet luxury, developer tools, retro-futurism |
+| Mobile patterns | 10 | Bottom tabs, bottom sheets, thumb-friendly actions |
+| Negative constraints | 9 | Avoid stock photos, icon overload, placeholder content |
+
+The app also includes three complete prompt examples to help you get started.
+
+## Quick start
+
+Open the [hosted app](https://gt-trip.github.io/gt-design-prompt/), or run it locally with Python 3:
 
 ```bash
+git clone https://github.com/gt-trip/gt-design-prompt.git
+cd gt-design-prompt
 python3 -m http.server 8000 --bind 127.0.0.1
 ```
 
-浏览器打开 [本地页面](http://localhost:8000/design-prompt-vocabulary.html)。按 `Ctrl+C` 停止服务。
+Visit [localhost:8000/design-prompt-vocabulary.html](http://localhost:8000/design-prompt-vocabulary.html). Press `Ctrl+C` to stop the server.
 
-复制功能需要浏览器允许访问剪贴板，推荐通过 `localhost` 或 HTTPS 打开页面。
+Use `localhost` or HTTPS and allow clipboard access when prompted for reliable copying.
 
-## 使用方式
+## Build your first prompt
 
-1. 先选择一个风格锚点，再补充布局、光效、排版、配色等词条。
-2. 用顶部「文字 / 示意图」切换全部词条，或用词条右上角按钮单独切换；点击词条加入组合。
-3. 宽屏直接查看右侧组合器；窄屏点击底部「展开提示词」，查看组合与相似风格模板。
-4. 点击「复制整段」，按实际需求替换任务描述与「参考图 X」。
-5. 再次点击已选词条或组合器中的已选标签可移除；点击「清空」重置组合。
+1. Choose one **style anchor**. Add a second only if you want a deliberate blend.
+2. Select the layout, textures, typography, colors, and mobile patterns you need.
+3. Add **negative constraints** to describe what the result should avoid.
+4. Review the assembled prompt in the side or bottom panel and choose **复制整段** (Copy full prompt).
+5. Replace the generic task description and reference-image placeholder with your actual product, audience, and reference.
 
-## GitHub Pages 自动部署
+Click a selected item or its tag again to remove it. Use **清空** (Clear) to start over. The **文字 / 示意图** controls switch between text and diagrams; each item has its own view toggle too.
 
-仓库已提供 [部署工作流](.github/workflows/deploy-pages.yml)。推送到 `main` 会自动部署，也支持在 Actions 页面手动运行。
+### Example design brief
 
-### 首次启用
+The following is an English example written using terms from the library:
 
-1. 将本项目及工作流提交并推送至 GitHub 仓库 `gt-trip/gt-design-prompt`。
-2. 打开仓库 [Settings → Pages](https://github.com/gt-trip/gt-design-prompt/settings/pages)，将 **Build and deployment → Source** 设为 **GitHub Actions**。
-3. 若此前的推送尚未成功部署，打开 [Actions](https://github.com/gt-trip/gt-design-prompt/actions/workflows/deploy-pages.yml)，选择 **Deploy to GitHub Pages → Run workflow → main**。
-4. 等待工作流成功，访问 <https://gt-trip.github.io/gt-design-prompt/>。实际地址也会显示在该次运行的 `github-pages` 环境中。
+```text
+Design a mobile meditation app with a Japandi minimal style and a calming
+SPA & wellness atmosphere. Use a cream and earth-tone palette, soft clay
+surfaces, serif headlines paired with sans-serif body text, and generous
+whitespace. Include bottom tab navigation and thumb-friendly primary actions.
+Avoid stock photos and excessive icons. Use the attached reference image
+for the intended mood and materials.
+```
 
-启用 Pages 需要仓库设置权限，仓库也需要满足当前 GitHub 套餐的 Pages 使用条件。工作流使用自动提供的 `GITHUB_TOKEN`，无需配置个人访问令牌或额外 Secrets。
+## How it works
 
-### 发布内容
+Prompt assembly runs entirely in your browser using predefined rules. The app does not call an AI service. Similar-style references are curated templates selected through fixed mappings.
 
-工作流将 `design-prompt-vocabulary.html` 复制为发布目录 `_site/index.html`，同时保留原文件名入口，并复制 `assets/` 图片资源。两种地址均可访问：
+Selected terms are kept in memory and reset when you reload the page. Only your global text/diagram preference is saved in the browser's `localStorage`.
 
-- 首页：<https://gt-trip.github.io/gt-design-prompt/>
-- 原文件入口：<https://gt-trip.github.io/gt-design-prompt/design-prompt-vocabulary.html>
-
-发布目录包含 `.nojekyll`，按静态文件发布；README、工作流配置和本地工作记录不进入网站，图片目录中的 `.DS_Store` 也会被排除。
-
-之后修改页面或图片，提交并推送到 `main` 即可自动更新网站。若部署失败，查看 Actions 中的失败步骤，并确认 Pages 的发布来源和仓库 Actions 权限。
-
-参考：[GitHub 官方自定义 Pages 工作流说明](https://docs.github.com/zh/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages)。
-
-## 项目结构
+## Project structure
 
 ```text
 .
-├── design-prompt-vocabulary.html   # 页面、样式、图例与交互逻辑
-├── assets/                         # 图片资源
+├── design-prompt-vocabulary.html   # UI, styles, diagrams, and app logic
+├── assets/                         # WebP image resources
 ├── .github/workflows/
-│   └── deploy-pages.yml            # GitHub Pages 自动部署
-├── .gitignore
-└── README.md
+│   └── deploy-pages.yml            # GitHub Pages deployment
+├── README.md                       # English documentation
+└── README.zh-CN.md                 # Chinese documentation
 ```
 
-维护词条时，在 HTML 中修改 `.chip` 元素；`data-copy` 是复制与组合使用的英文关键词，`data-p` 对应脚本中的图例键。图例、预设组合和相似风格映射分别位于 `P`、`RECIPE`、`SIM` 与 `VSIM` 中。位图资源统一使用 WebP 和相对路径，以兼容 GitHub Pages 的仓库子路径；避免将照片以 Base64 内嵌进 HTML。切换按钮、内嵌图例与键盘选择按钮由脚本统一生成。
+### Customize the library
+
+Edit `design-prompt-vocabulary.html`:
+
+| Source | Purpose |
+| --- | --- |
+| `.chip` elements | Term title and explanation; `data-copy` supplies the keyword and `data-p` identifies its diagram |
+| `P` | Diagram markup and captions |
+| `RECIPE` / `RNAME` | Preset prompt templates and their names |
+| `SIM` / `VSIM` | Style and atmosphere mappings for related templates |
+| `CAT` | Category names used in assembled prompts |
+
+Use WebP for raster images and relative asset paths so the app works under a GitHub Pages repository subpath. Keep photos as separate files instead of embedding them as Base64.
+
+## Deploy your own copy
+
+The repository includes a [GitHub Pages workflow](.github/workflows/deploy-pages.yml).
+
+1. Fork the repository or copy it into your own GitHub repository.
+2. In **Settings → Pages**, set **Build and deployment → Source** to **GitHub Actions**.
+3. Push to `main`, or run **Deploy to GitHub Pages** manually from the **Actions** tab.
+4. Open the URL shown in the workflow's `github-pages` environment after deployment succeeds.
+
+The workflow publishes the HTML as both `index.html` and `design-prompt-vocabulary.html`, together with `assets/`. README files remain repository documentation and are not included in the deployed site.
+
+## Contributing
+
+Contributions are welcome: add useful design terms, improve diagrams, refine explanations, fix accessibility issues, or improve the documentation.
+
+- Open an [issue](https://github.com/gt-trip/gt-design-prompt/issues) for a bug or a proposed change. For UI bugs, include your browser, viewport size, and reproduction steps.
+- Keep changes focused and describe what they improve in your pull request.
+- For app changes, check desktop and mobile layouts, both display modes, term selection, removal, clearing, and clipboard behavior.
+- Keep the [English](README.md) and [Chinese](README.zh-CN.md) documentation aligned when changing documented behavior.
